@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:18.0-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-servicedesk}
+      POSTGRES_USER: ${DB_USER:-servicedesk}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-servicedesk}
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      retries: 15
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 15
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: ["app"]
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      DB_NAME: ${DB_NAME:-servicedesk}
+      DB_USER: ${DB_USER:-servicedesk}
+      DB_PASSWORD: ${DB_PASSWORD:-servicedesk}
+    ports: ["8080:8080"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+volumes:
+  pgdata:
