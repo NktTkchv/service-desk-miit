@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 
 @Entity
 @Table(name = "users")

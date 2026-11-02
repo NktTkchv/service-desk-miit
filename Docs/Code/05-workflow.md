@@ -8,8 +8,8 @@ package ru.miit.servicedesk.workflow;
 import java.time.OffsetDateTime;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import ru.miit.servicedesk.requests.RequestEntity;
-import ru.miit.servicedesk.requests.RequestStatusEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestStatusEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
 @Entity

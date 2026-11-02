@@ -66,7 +66,7 @@ package ru.miit.servicedesk.checklists;
 
 import java.time.OffsetDateTime;
 import jakarta.persistence.*;
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
 @Entity @Table(name = "request_checklist_item")
@@ -140,7 +140,7 @@ public record ChecklistItemDto(Long id, String title, int position, boolean requ
 ```java
 package ru.miit.servicedesk.checklists;
 import java.util.List;
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 public interface ChecklistService {
     void createSnapshotForRequest(RequestEntity request);
     List<ChecklistItemDto> getForRequest(Long requestId);
@@ -158,7 +158,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.miit.servicedesk.common.NotFoundException;
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 import ru.miit.servicedesk.security.CurrentUser;
 import ru.miit.servicedesk.users.UserRepository;
 

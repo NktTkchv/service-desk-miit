@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 public interface DashboardRepository extends JpaRepository<RequestEntity, Long> {
     @Query("""
             select s.name as status, count(r.id) as count

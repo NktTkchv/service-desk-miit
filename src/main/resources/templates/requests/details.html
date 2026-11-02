@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="'Заявка №' + ${req.id}">Заявка</title>
+    <link rel="stylesheet" th:href="@{/css/request-details.css}">
+</head>
+<body th:with="s=${req.status.name}">
+
+<header class="topbar">
+    <div class="topbar__inner">
+        <div class="brand"><span class="brand__logo"></span>Сервис-деск</div>
+        <nav class="nav">
+            <a href="#">Каталог</a>
+            <a class="active" th:href="@{/requests(authorId=${req.author.id})}">Мои заявки</a>
+            <a href="#">Профиль</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page">
+    <div class="crumbs">
+        <a th:href="@{/requests(authorId=${req.author.id})}">Мои заявки</a> / Заявка №<span th:text="${req.id}"></span>
+    </div>
+
+    <div class="title-row">
+        <h1>Заявка №<span th:text="${req.id}"></span></h1>
+        <span class="badge" th:classappend="'badge--' + ${#strings.toLowerCase(s)}"
+              th:text="#{${'status.' + s}}"></span>
+    </div>
+    <p class="muted" th:text="'Создана ' + ${#temporals.format(req.createdAt, 'dd.MM.yyyy, HH:mm')}"></p>
+
+    <div class="grid">
+
+        <!-- Левая колонка -->
+        <div class="col">
+            <section class="card service">
+                <div class="service__icon">🖥</div>
+                <div>
+                    <div class="card__label">Услуга</div>
+                    <div class="service__name" th:text="${req.service.nameService}"></div>
+                    <div class="muted" style="margin:0" th:text="'Срок: до ' + ${req.service.deadline} + ' ч'"></div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card__label">Описание заявки</div>
+                <div class="text" th:text="${req.description} ?: '—'"></div>
+            </section>
+
+            <section class="card reject" th:if="${req.rejectReason != null}">
+                <div class="card__label">Причина отклонения</div>
+                <div class="text" th:text="${req.rejectReason}"></div>
+            </section>
+
+            <section class="card">
+                <div class="card__label">Ход выполнения</div>
+                <ol class="timeline">
+
+                    <li class="step is-done">
+                        <span class="marker"></span>
+                        <div>
+                            <div class="step__title">Создана</div>
+                            <div class="step__sub"
+                                 th:text="${req.author.fullName} + ' · ' + ${#temporals.format(req.createdAt, 'dd.MM.yyyy, HH:mm')}"></div>
+                        </div>
+                    </li>
+
+                    <!-- Отклонена или отменена: цепочка заканчивается -->
+                    <li class="step" th:if="${s == 'REJECTED' or s == 'CANCELLED'}"
+                        th:classappend="${s == 'REJECTED'} ? 'is-failed' : 'is-cancelled'">
+                        <span class="marker"></span>
+                        <div>
+                            <div class="step__title" th:text="#{${'status.' + s}}"></div>
+                            <div class="step__sub" th:if="${req.approver != null}" th:text="${req.approver.fullName}"></div>
+                        </div>
+                    </li>
+
+                    <!-- Обычный путь -->
+                    <th:block th:unless="${s == 'REJECTED' or s == 'CANCELLED'}">
+                        <li class="step" th:classappend="${s != 'PENDING_HEAD'} ? 'is-done' : 'is-pending'">
+                            <span class="marker"></span>
+                            <div>
+                                <div class="step__title">Согласована</div>
+                                <div class="step__sub" th:text="${req.approver != null} ? ${req.approver.fullName} : 'Ожидает'"></div>
+                            </div>
+                        </li>
+                        <li class="step"
+                            th:classappend="${s == 'IN_PROGRESS'} ? 'is-current' : (${s == 'DONE'} ? 'is-done' : 'is-pending')">
+                            <span class="marker"></span>
+                            <div>
+                                <div class="step__title">В работе</div>
+                                <div class="step__sub"
+                                     th:text="${req.executor != null} ? 'Исполнитель: ' + ${req.executor.fullName} : 'Ожидает'"></div>
+                            </div>
+                        </li>
+                        <li class="step" th:classappend="${s == 'DONE'} ? 'is-done' : 'is-pending'">
+                            <span class="marker"></span>
+                            <div>
+                                <div class="step__title">Выполнено</div>
+                                <div class="step__sub" th:unless="${s == 'DONE'}">Ожидает</div>
+                            </div>
+                        </li>
+                    </th:block>
+
+                </ol>
+            </section>
+        </div>
+
+        <!-- Правая колонка -->
+        <aside class="col">
+            <section class="card">
+                <div class="card__label">Участники</div>
+                <div th:replace="~{:: person('Автор', ${req.author})}"></div>
+                <div th:replace="~{:: person('Согласователь', ${req.approver})}"></div>
+                <div th:replace="~{:: person('Исполнитель', ${req.executor})}"></div>
+            </section>
+
+            <section class="card">
+                <div class="card__label">Аудитория</div>
+                <div class="audience" th:text="'Аудитория ' + ${req.audience.number}"></div>
+            </section>
+
+            <button type="button" class="btn btn--primary" th:if="${s == 'REJECTED'}">Изменить и отправить снова</button>
+            <button type="button" class="btn btn--danger" th:if="${s != 'DONE' and s != 'CANCELLED'}">Отменить заявку</button>
+        </aside>
+    </div>
+</main>
+
+<!-- Фрагмент: один участник. Вызывается три раза выше -->
+<div class="person" th:fragment="person(label, user)">
+    <th:block th:if="${user != null}" th:with="p=${#strings.arraySplit(user.fullName, ' ')}">
+        <span class="avatar" th:text="${#strings.substring(p[0], 0, 1) + #strings.substring(p[1], 0, 1)}"></span>
+        <div>
+            <div class="label" th:text="${label}"></div>
+            <div class="name" th:text="${user.fullName}"></div>
+            <div class="role" th:text="#{${'role.' + user.roleName}}"></div>
+        </div>
+    </th:block>
+    <th:block th:unless="${user != null}">
+        <span class="avatar avatar--empty"></span>
+        <div>
+            <div class="label" th:text="${label}"></div>
+            <div class="name name--empty">Не назначен</div>
+        </div>
+    </th:block>
+</div>
+
+</body>
+</html>
