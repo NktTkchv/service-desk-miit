@@ -1,0 +1,225 @@
+:root {
+  --bg: #f4f5f9;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --line: #c7d2fe;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* ---------- Шапка ---------- */
+.topbar { background: var(--card); border-bottom: 1px solid #e5e7eb; }
+.topbar__inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; }
+.brand__logo { width: 32px; height: 32px; border-radius: 8px; background: var(--accent); }
+.nav { display: flex; gap: 32px; }
+.nav a { color: var(--muted); text-decoration: none; padding: 21px 0; border-bottom: 3px solid transparent; }
+.nav a.active { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+
+/* ---------- Каркас страницы ---------- */
+.page { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.crumbs { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+.crumbs a { color: inherit; text-decoration: none; }
+.title-row { display: flex; align-items: center; gap: 16px; }
+.title-row h1 { margin: 0; font-size: 36px; }
+.muted { color: var(--muted); margin: 6px 0 24px; }
+
+.grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+
+.card {
+  background: var(--card); border-radius: 16px; padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.06);
+}
+.card__label { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+
+/* ---------- Статус-бейдж ---------- */
+.badge { padding: 8px 18px; border-radius: 999px; font-size: 15px; font-weight: 600; }
+.badge--pending_head, .badge--pending_department { background: #fef3c7; color: #b45309; }
+.badge--assigned, .badge--in_progress           { background: #dbeafe; color: #1d4ed8; }
+.badge--done                                    { background: #dcfce7; color: #15803d; }
+.badge--rejected                                { background: #fee2e2; color: #b91c1c; }
+.badge--cancelled                               { background: #e5e7eb; color: #4b5563; }
+
+/* ---------- Услуга ---------- */
+.service { display: flex; align-items: center; gap: 20px; }
+.service__icon {
+  width: 64px; height: 64px; border-radius: 16px; font-size: 30px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #3b82f6, #4f46e5);
+}
+.service__name { font-size: 24px; font-weight: 700; margin: 2px 0 6px; }
+
+/* ---------- Описание и причина отклонения ---------- */
+.text { font-size: 17px; line-height: 1.7; white-space: pre-line; }
+.reject { background: #fef2f2; border: 1px solid #fecaca; }
+.reject .card__label { color: #b91c1c; font-weight: 600; }
+
+/* ---------- Участники ---------- */
+.person { display: flex; align-items: center; gap: 14px; margin-top: 18px; }
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: #c7d2fe; color: #3730a3; font-weight: 700;
+}
+.avatar--empty { background: none; border: 2px dashed #cbd5e1; }
+.person .label { font-size: 13px; color: var(--muted); }
+.person .name { font-size: 18px; font-weight: 700; }
+.person .name--empty { color: #9ca3af; font-weight: 500; }
+.person .role { color: var(--muted); font-size: 15px; }
+.audience { font-size: 24px; font-weight: 700; }
+
+/* ---------- Кнопки ---------- */
+.btn {
+  width: 100%; padding: 14px; border-radius: 12px; font-size: 17px;
+  font-weight: 600; cursor: pointer; border: 2px solid transparent;
+}
+.btn--primary { background: var(--accent); color: #fff; }
+.btn--danger  { background: #fff; color: #dc2626; border-color: #dc2626; }
+
+/* ---------- Таймлайн ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.step { position: relative; display: flex; gap: 16px; padding-bottom: 32px; }
+.step:last-child { padding-bottom: 0; }
+.step:not(:last-child)::before {          /* вертикальная линия между кружками */
+  content: ""; position: absolute; left: 15px; top: 32px; bottom: 0;
+  width: 2px; background: var(--line);
+}
+.marker {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center; color: #fff; font-weight: 700;
+  border: 2px solid #d1d5db; background: #fff;      /* состояние по умолчанию: ожидает */
+}
+.step__title { font-size: 19px; font-weight: 700; }
+.step__sub { color: var(--muted); margin-top: 4px; }
+
+.is-done .marker      { background: var(--accent); border-color: var(--accent); }
+.is-done .marker::after    { content: "✓"; }
+.is-current .marker   { background: #2563eb; border-color: #2563eb; }
+.is-current .marker::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #fff; }
+.is-failed .marker    { background: #dc2626; border-color: #dc2626; }
+.is-failed .marker::after  { content: "✕"; }
+.is-cancelled .marker { background: #6b7280; border-color: #6b7280; }
+.is-cancelled .marker::after { content: "✕"; }
+.is-pending .step__title, .is-pending .step__sub { color: #9ca3af; }
+
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+
+/* ---------- Фильтры (вкладки) ---------- */
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.filter-btn {
+    padding: 10px 24px;
+    border-radius: 999px;
+    border: none;
+    background: #e5e7eb;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background: #d1d5db;
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+/* ---------- Таблица заявок ---------- */
+.table-card {
+    padding: 0; /* Убираем внутренние отступы карточки, чтобы таблица была от края до края */
+    overflow: hidden; /* Чтобы скругления карточки обрезали углы таблицы */
+}
+
+.requests-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.requests-table th {
+    background: #f8fafc; /* Очень светлый серый, почти незаметный */
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.requests-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.requests-table tbody tr:last-child td {
+    border-bottom: none; /* Убираем линию у последней строки */
+}
+
+.requests-table tbody tr:hover {
+    background-color: #f8fafc; /* Легкая подсветка строки при наведении */
+}
+
+/* Ссылка на номер заявки */
+.req-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.req-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Пагинация ---------- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.pagination a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    background: var(--card);
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.pagination a:hover {
+    background: #f1f5f9;
+}
+
+.pagination a.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}

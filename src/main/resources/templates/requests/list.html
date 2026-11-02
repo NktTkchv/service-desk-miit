@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои заявки - Сервис-деск</title>
+    <!-- Подключаем твой основной CSS -->
+    <link rel="stylesheet" th:href="@{/css/request-details.css}">
+    <!-- Подключаем дополнительный CSS для списка (код ниже) -->
+    <link rel="stylesheet" th:href="@{/css/requests-list.css}">
+</head>
+<body>
+
+<!-- Шапка (как на втором фото) -->
+<header class="topbar">
+    <div class="topbar__inner">
+        <div class="brand">
+            <div class="brand__logo"></div>
+            <span>Сервис-деск</span>
+        </div>
+        <nav class="nav">
+            <a href="#">Каталог</a>
+            <a href="#" class="active">Мои заявки</a>
+            <a href="#">Профиль</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page">
+    <!-- Заголовок -->
+    <div class="title-row" style="margin-bottom: 24px;">
+        <h1>Мои заявки</h1>
+    </div>
+
+    <!-- Фильтры (как на первом фото, но в стиле второго) -->
+    <div class="filters">
+        <button class="filter-btn active">Все</button>
+        <button class="filter-btn">Активные</button>
+        <button class="filter-btn">Завершённые</button>
+    </div>
+
+    <!-- Таблица заявок -->
+    <div class="card table-card">
+        <table class="requests-table">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Услуга</th>
+                <th>Кабинет</th>
+                <th>Подана</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Цикл по заявкам из модели. 'requests' - это Page<RequestSummaryDto> -->
+            <tr th:each="req : ${requests.content}">
+                <!-- Ссылка на детали заявки -->
+                <td>
+                    <a th:href="@{/requests/{id}(id=${req.id})}" class="req-link" th:text="'№' + ${req.id}"></a>
+                </td>
+                <td th:text="${req.serviceName}">Поставить новое оборудование</td>
+                <td th:text="${req.audienceNum}">1312</td>
+                <!-- Форматируем дату -->
+                <td th:text="${#temporals.format(req.createdAt, 'dd.MM.yyyy')}">14.10.2026</td>
+                <td>
+                    <!-- Бейдж статуса. Класс формируется динамически: badge--in_progress, badge--rejected и т.д. -->
+                    <span class="badge"
+                          th:classappend="'badge--' + ${#strings.toLowerCase(req.statusName)}"
+                          th:text="${req.statusName}">В работе</span>
+                </td>
+            </tr>
+            <!-- Если заявок нет -->
+            <tr th:if="${requests.content.isEmpty()}">
+                <td colspan="5" style="text-align: center; color: var(--muted); padding: 40px;">
+                    У вас пока нет заявок
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Пагинация (если нужно) -->
+    <div class="pagination" th:if="${requests.totalPages > 1}">
+        <span th:each="i : ${#numbers.sequence(0, requests.totalPages - 1)}">
+            <a th:href="@{/requests/by-author-id(authorId=${param.authorId}, page=${i})}"
+               th:classappend="${i == requests.number} ? 'active' : ''"
+               th:text="${i + 1}">1</a>
+        </span>
+    </div>
+
+</main>
+
+</body>
+</html>

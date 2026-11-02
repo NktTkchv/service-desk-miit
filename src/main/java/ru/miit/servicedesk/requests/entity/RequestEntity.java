@@ -1,4 +1,4 @@
-package ru.miit.servicedesk.requests;
+package ru.miit.servicedesk.requests.entity;
 
 import java.time.OffsetDateTime;
 
@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
@@ -50,6 +51,7 @@ public class RequestEntity {
     @JoinColumn(name = "executor_id")
     private UserEntity executor;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
 

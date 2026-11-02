@@ -28,7 +28,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import ru.miit.servicedesk.requests.RequestEntity;
+import ru.miit.servicedesk.requests.entity.RequestEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
 @Entity @Table(name = "notification")

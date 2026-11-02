@@ -1,4 +1,4 @@
-package ru.miit.servicedesk.requests;
+package ru.miit.servicedesk.requests.entity;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

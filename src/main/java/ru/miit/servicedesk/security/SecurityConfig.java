@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+//
 @Configuration
 public class SecurityConfig {
 
@@ -15,16 +15,27 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/login", "/error", "/css/**", "/js/**")
+//                        .permitAll()
+//                        .anyRequest()
+//                        .authenticated())
+//                .formLogin(form -> form.permitAll())
+//                .logout(logout -> logout.permitAll())
+//                .build();
+//    }
+
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/error", "/css/**", "/js/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .formLogin(form -> form.permitAll())
-                .logout(logout -> logout.permitAll())
-                .build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // Отключаем CSRF для тестов
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll() // <--- ПУСКАЕМ ВСЕХ ВЕЗДЕ
+            )
+            .formLogin(form -> form.disable()); // Отключаем страницу логина
+        return http.build();
     }
 }
