@@ -18,7 +18,5 @@ public interface RequestService {
 
     Page<RequestSummaryDto> listByExecutor(Long executorId, Pageable pageable);
 
-    void assign(Long requestId, Long executorId);
 
-    void changeStatus(Long requestId, Short statusId, Long changedBy);
 }
