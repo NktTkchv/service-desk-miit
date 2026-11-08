@@ -18,5 +18,4 @@ public interface RequestService {
 
     Page<RequestSummaryDto> listByExecutor(Long executorId, Pageable pageable);
 
-
 }
