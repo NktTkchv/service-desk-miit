@@ -2,7 +2,6 @@ package ru.miit.servicedesk.requests.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import ru.miit.servicedesk.requests.DTO.RequestDetailsDto;
 import ru.miit.servicedesk.requests.DTO.RequestSummaryDto;
 import ru.miit.servicedesk.requests.entity.RequestEntity;

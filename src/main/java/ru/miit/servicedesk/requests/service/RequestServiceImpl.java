@@ -3,8 +3,8 @@ package ru.miit.servicedesk.requests.service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
-import ru.miit.servicedesk.catalog.ServiceCatalogItemRepository;
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
+import ru.miit.servicedesk.catalog.repository.ServiceCatalogRepository;
 import ru.miit.servicedesk.requests.DTO.RequestDetailsDto;
 import ru.miit.servicedesk.requests.DTO.RequestSummaryDto;
 import ru.miit.servicedesk.requests.RequestMapper.RequestMapper;
@@ -21,7 +21,6 @@ import ru.miit.servicedesk.users.UserEntity;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,10 +29,10 @@ public class RequestServiceImpl implements RequestService{
     private final RequestStatusRepository requestStatusRepository;
     private final AppUserRepository user;
     private final AudienceRepository audienceRepository;
-    private final ServiceCatalogItemRepository catalogRepository;
+    private final ServiceCatalogRepository catalogRepository;
 
 
-    public RequestServiceImpl(RequestRepository requestRepository, RequestStatusRepository requestStatusRepository, AppUserRepository user, AudienceRepository audienceRepository, ServiceCatalogItemRepository catalogRepository) {
+    public RequestServiceImpl(RequestRepository requestRepository, RequestStatusRepository requestStatusRepository, AppUserRepository user, AudienceRepository audienceRepository, ServiceCatalogRepository catalogRepository) {
         this.requestRepository = requestRepository;
         this.requestStatusRepository = requestStatusRepository;
         this.user = user;
