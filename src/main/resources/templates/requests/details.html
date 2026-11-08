@@ -13,7 +13,7 @@
         <div class="brand"><span class="brand__logo"></span>Сервис-деск</div>
         <nav class="nav">
             <a href="#">Каталог</a>
-            <a class="active" th:href="@{/requests(authorId=${req.author.id})}">Мои заявки</a>
+            <a class="active" th:href="@{/requests/by-author-id(authorId=${req.author.id})}">Мои заявки</a>
             <a href="#">Профиль</a>
         </nav>
     </div>
@@ -21,7 +21,7 @@
 
 <main class="page">
     <div class="crumbs">
-        <a th:href="@{/requests(authorId=${req.author.id})}">Мои заявки</a> / Заявка №<span th:text="${req.id}"></span>
+        <a th:href="@{/requests/by-author-id(authorId=${req.author.id})}">Мои заявки</a> / Заявка №<span th:text="${req.id}"></span>
     </div>
 
     <div class="title-row">

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Новая заявка - Сервис-деск</title>
+    <link rel="stylesheet" th:href="@{/css/request-details.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar__inner">
+        <div class="brand"><span class="brand__logo"></span>Сервис-деск</div>
+        <nav class="nav">
+            <a href="#">Каталог</a>
+            <a class="active" th:href="@{/requests/by-author-id(authorId=${form.authorId})}">Мои заявки</a>
+            <a href="#">Профиль</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page">
+    <div class="crumbs">
+        <a th:href="@{/requests/by-author-id(authorId=${form.authorId})}">Мои заявки</a> / Новая заявка
+    </div>
+
+    <div class="title-row">
+        <h1>Новая заявка</h1>
+    </div>
+    <p class="muted">Выберите услугу из каталога и укажите аудиторию. Заявка уйдёт на согласование заведующему кафедрой.</p>
+
+    <form th:action="@{/requests}" th:object="${form}" method="post" novalidate>
+        <input type="hidden" th:field="*{authorId}">
+
+        <!-- Общие ошибки: услуга не найдена, не определён автор и т.д. -->
+        <div class="alert" th:if="${#fields.hasGlobalErrors()}">
+            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+        </div>
+        <div class="alert" th:if="${#fields.hasErrors('authorId')}" th:errors="*{authorId}"></div>
+
+        <div class="grid">
+
+            <!-- Левая колонка -->
+            <div class="col">
+                <section class="card" th:classappend="${#fields.hasErrors('serviceId')} ? 'card--error'">
+                    <label class="card__label" for="serviceId">Услуга</label>
+                    <select id="serviceId" class="control" th:field="*{serviceId}">
+                        <option value="">— выберите услугу —</option>
+                        <option th:each="s : ${services}"
+                                th:value="${s.id}"
+                                th:text="${s.nameService}"
+                                th:attr="data-description=${s.description}, data-deadline=${s.deadline}">Услуга</option>
+                    </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('serviceId')}" th:errors="*{serviceId}"></div>
+                </section>
+
+                <section class="card" th:classappend="${#fields.hasErrors('audienceId')} ? 'card--error'">
+                    <label class="card__label" for="audienceId">Аудитория</label>
+                    <select id="audienceId" class="control" th:field="*{audienceId}">
+                        <option value="">— выберите аудиторию —</option>
+                        <option th:each="a : ${audiences}" th:value="${a.id}" th:text="${a.number}">Д-401</option>
+                    </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('audienceId')}" th:errors="*{audienceId}"></div>
+                </section>
+
+                <section class="card" th:classappend="${#fields.hasErrors('description')} ? 'card--error'">
+                    <label class="card__label" for="description">Описание заявки (необязательно)</label>
+                    <textarea id="description" class="control" rows="6" maxlength="4000" th:field="*{description}"
+                              placeholder="Например: нужен Blender на 12 рабочих станций"></textarea>
+                    <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                </section>
+            </div>
+
+            <!-- Правая колонка -->
+            <aside class="col">
+                <section class="card service">
+                    <div class="service__icon">🖥</div>
+                    <div>
+                        <div class="card__label">Выбранная услуга</div>
+                        <div class="service__name" id="service-name">Не выбрана</div>
+                        <div class="muted" style="margin:0" id="service-meta">Срок появится после выбора услуги</div>
+                    </div>
+                </section>
+
+                <button type="submit" class="btn btn--primary">Отправить заявку</button>
+                <a class="btn btn--secondary" th:href="@{/requests/by-author-id(authorId=${form.authorId})}">Отмена</a>
+            </aside>
+        </div>
+    </form>
+</main>
+
+<script>
+    // Обновляет карточку «Выбранная услуга» справа при смене значения в списке.
+    (function () {
+        var select = document.getElementById('serviceId');
+        var nameEl = document.getElementById('service-name');
+        var metaEl = document.getElementById('service-meta');
+
+        function update() {
+            var opt = select.options[select.selectedIndex];
+            if (!opt || !opt.value) {
+                nameEl.textContent = 'Не выбрана';
+                metaEl.textContent = 'Срок появится после выбора услуги';
+                return;
+            }
+            var desc = opt.getAttribute('data-description');
+            var deadline = opt.getAttribute('data-deadline');
+            nameEl.textContent = opt.textContent;
+            metaEl.textContent = (desc ? desc + ' · ' : '') + 'Срок: до ' + deadline + ' ч';
+        }
+
+        select.addEventListener('change', update);
+        update();
+    })();
+</script>
+
+</body>
+</html>

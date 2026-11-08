@@ -223,3 +223,57 @@ body {
     color: #fff;
     border-color: var(--accent);
 }
+
+/* ---------- Форма создания заявки ---------- */
+.card label.card__label { display: block; }
+
+.control {
+    width: 100%;
+    padding: 12px 14px;
+    font: inherit;
+    font-size: 16px;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+}
+
+textarea.control { resize: vertical; line-height: 1.5; }
+
+.control:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.card--error { border: 1px solid #fecaca; }
+.card--error .control { border-color: #dc2626; }
+
+.field-error { margin-top: 8px; font-size: 14px; color: #b91c1c; }
+
+.alert {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+/* Ссылка-кнопка («Отмена») в стиле .btn */
+a.btn { display: block; text-align: center; text-decoration: none; }
+.btn--secondary { background: #fff; color: var(--text); border-color: #d1d5db; }
+.btn--secondary:hover { background: #f3f4f6; }
+form .col .btn + .btn { margin-top: 0; }
+
+/* Кнопка «Создать заявку» в заголовке списка */
+.btn-create {
+    margin-left: auto;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.btn-create:hover { filter: brightness(1.08); }
