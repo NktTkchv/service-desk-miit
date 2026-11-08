@@ -1,7 +1,7 @@
 package ru.miit.servicedesk.catalog.CatalogMapper;
 
 import ru.miit.servicedesk.catalog.DTO.ServiceCatalogDto;
-import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
 
 public class CatalogMapper {
     public static ServiceCatalogDto toDto(ServiceCatalogEntity s) {

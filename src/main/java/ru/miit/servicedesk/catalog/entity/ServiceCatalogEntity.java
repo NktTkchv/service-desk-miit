@@ -1,4 +1,4 @@
-package ru.miit.servicedesk.catalog;
+package ru.miit.servicedesk.catalog.entity;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

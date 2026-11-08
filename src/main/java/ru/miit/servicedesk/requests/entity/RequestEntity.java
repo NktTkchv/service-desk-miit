@@ -13,8 +13,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
 import org.springframework.data.annotation.Version;
-import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
 @Entity
