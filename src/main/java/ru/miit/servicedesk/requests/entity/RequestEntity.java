@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Version;
 import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
 import ru.miit.servicedesk.users.UserEntity;
 
@@ -52,7 +53,7 @@ public class RequestEntity {
     private UserEntity executor;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
     @Column(name = "is_approved")
@@ -60,6 +61,23 @@ public class RequestEntity {
 
     @Column(name = "reject_reason", columnDefinition = "text")
     private String rejectReason;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private long version;
+
+
+    @Column(name = "deadline_hours_snapshot", nullable = false)
+    private Integer deadlineHoursSnapshot;
+
+    @Column(name = "due_at", nullable = false)
+    private OffsetDateTime dueAt;
+
+    public long getVersion() { return version; }
+    public OffsetDateTime getDueAt() { return dueAt; }
+    public void setDueAt(OffsetDateTime dueAt) { this.dueAt = dueAt; }
+    public Integer getDeadlineHoursSnapshot() { return deadlineHoursSnapshot; }
+    public void setDeadlineHoursSnapshot(Integer value) { this.deadlineHoursSnapshot = value; }
 
     public Long getId() {
         return id;
