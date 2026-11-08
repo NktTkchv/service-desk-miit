@@ -30,6 +30,7 @@
     <!-- Заголовок -->
     <div class="title-row" style="margin-bottom: 24px;">
         <h1>Мои заявки</h1>
+        <a class="btn-create" th:href="@{/requests/create(authorId=${param.authorId})}">+ Создать заявку</a>
     </div>
 
     <!-- Фильтры (как на первом фото, но в стиле второго) -->
