@@ -1,4 +1,6 @@
-package ru.miit.servicedesk.catalog;
+package ru.miit.servicedesk.catalog.service;
+
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
 
 import java.util.List;
 

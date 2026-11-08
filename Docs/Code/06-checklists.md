@@ -36,7 +36,7 @@ CREATE INDEX idx_checklist_request ON request_checklist_item(request_id, positio
 package ru.miit.servicedesk.checklists;
 
 import jakarta.persistence.*;
-import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
 
 @Entity @Table(name = "checklist_template_item")
 public class ChecklistTemplateItemEntity {

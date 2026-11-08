@@ -200,7 +200,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.miit.servicedesk.catalog.ServiceCatalogEntity;
+import ru.miit.servicedesk.catalog.entity.ServiceCatalogEntity;
 import ru.miit.servicedesk.catalog.ServiceCatalogRepository;
 import ru.miit.servicedesk.common.NotFoundException;
 import ru.miit.servicedesk.requests.dto.CreateRequestRequest;
