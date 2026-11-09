@@ -16,7 +16,7 @@ import ru.miit.servicedesk.requests.repository.AudienceRepository;
 import ru.miit.servicedesk.requests.repository.RequestRepository;
 import org.springframework.data.domain.Pageable;
 import ru.miit.servicedesk.requests.repository.RequestStatusRepository;
-import ru.miit.servicedesk.users.AppUserRepository;
+import ru.miit.servicedesk.users.repository.AppUserRepository;
 import ru.miit.servicedesk.users.UserEntity;
 
 import java.time.OffsetDateTime;
